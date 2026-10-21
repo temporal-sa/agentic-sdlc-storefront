@@ -62,9 +62,14 @@ function renderCart() {
     });
     list.appendChild(row);
   }
-  const { subtotal, tax, total } = totals(cart);
+  const { subtotal, discount, tax, total } = totals(cart);
+  const discountLabel = document.querySelector("#discount-label");
+  const discountValue = document.querySelector("#discount");
   document.querySelector("#cart-count").textContent = String(itemCount(cart));
   document.querySelector("#subtotal").textContent = formatMoney(subtotal);
+  discountValue.textContent = `−${formatMoney(discount)}`;
+  discountLabel.hidden = discount === 0;
+  discountValue.hidden = discount === 0;
   document.querySelector("#tax").textContent = formatMoney(tax);
   document.querySelector("#total").textContent = formatMoney(total);
   document.querySelector("#empty").hidden = cart.items.length > 0;
