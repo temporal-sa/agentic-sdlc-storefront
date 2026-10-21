@@ -16,7 +16,12 @@
     <main class="layout">
       <section aria-labelledby="shop-heading">
         <h1 id="shop-heading">Gear for the long haul</h1>
+        <div class="search-field">
+          <label for="search">Search products</label>
+          <input type="search" id="search" placeholder="Search products..." />
+        </div>
         <div id="products" class="grid"></div>
+        <p id="no-results" class="muted" hidden>No products match</p>
       </section>
       <aside class="cart" aria-labelledby="cart-heading">
         <h2 id="cart-heading">Your cart</h2>
