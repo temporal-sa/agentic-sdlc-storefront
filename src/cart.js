@@ -43,6 +43,12 @@ export function formatMoney(amount) {
   return `$${amount.toFixed(2)}`;
 }
 
+export function filterProducts(products, query) {
+  const q = query == null ? "" : String(query).trim().toLowerCase();
+  if (q === "") return [...products];
+  return products.filter((p) => p.name.toLowerCase().includes(q));
+}
+
 export function roundCents(amount) {
   return Math.round(amount * 100) / 100;
 }
