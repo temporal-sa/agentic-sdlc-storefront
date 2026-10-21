@@ -1,8 +1,26 @@
 // DOM wiring for the storefront. Business rules live in cart.js.
-import { addItem, createCart, formatMoney, itemCount, removeItem, totals } from "./cart.js";
+import { addItem, applyDiscountCode, createCart, formatMoney, itemCount, removeItem, totals } from "./cart.js";
 
 let cart = createCart();
 let products = [];
+
+const discountForm = document.querySelector("#discount-form");
+const discountInput = document.querySelector("#discount-code");
+const discountError = document.querySelector("#discount-error");
+
+discountForm.addEventListener("submit", (event) => {
+  event.preventDefault();
+  const result = applyDiscountCode(cart, discountInput.value);
+  if (result.ok) {
+    cart = result.cart;
+    discountError.textContent = "";
+    discountError.hidden = true;
+    renderCart();
+    return;
+  }
+  discountError.textContent = result.error;
+  discountError.hidden = false;
+});
 
 async function main() {
   const response = await fetch("./products.json");
