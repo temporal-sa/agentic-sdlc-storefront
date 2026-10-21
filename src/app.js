@@ -1,5 +1,6 @@
 // DOM wiring for the storefront. Business rules live in cart.js.
 import { addItem, createCart, formatMoney, itemCount, removeItem, totals } from "./cart.js";
+import { THEME_STORAGE_KEY, resolveInitialTheme, nextTheme, readStoredTheme, writeStoredTheme } from "./theme.js";
 
 let cart = createCart();
 let products = [];
