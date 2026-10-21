@@ -19,8 +19,7 @@ function initTheme() {
   const apply = () => {
     document.documentElement.dataset.theme = theme;
     button.setAttribute("aria-pressed", String(theme === "dark"));
-    button.textContent = theme === "dark" ? "Light mode" : "Dark mode";
-    button.setAttribute("aria-label", "Dark mode");
+    button.textContent = "Dark mode";
   };
   apply();
   button.addEventListener("click", () => {
