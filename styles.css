@@ -28,6 +28,14 @@ button.link { background: none; color: var(--accent); padding: 0; font-weight: 5
 .totals { display: grid; grid-template-columns: 1fr auto; gap: 6px; margin: 0 0 16px; }
 .totals dd { margin: 0; text-align: right; }
 .total { font-weight: 700; }
+.shipping-block { margin: 0 0 16px; --progress-color: var(--accent); }
+.shipping-block p { margin: 0 0 6px; font-size: 0.9rem; color: var(--muted); }
+.shipping-block progress { width: 100%; height: 10px; appearance: none; border: 0; border-radius: 999px; background: var(--border); overflow: hidden; }
+.shipping-block progress::-webkit-progress-bar { background: var(--border); border-radius: 999px; }
+.shipping-block progress::-webkit-progress-value { background: var(--progress-color); border-radius: 999px; transition: width 0.2s; }
+.shipping-block progress::-moz-progress-bar { background: var(--progress-color); border-radius: 999px; }
+.shipping-block.unlocked { --progress-color: #12a150; }
+.shipping-block.unlocked p { color: #0b7a3b; font-weight: 600; }
 .muted { color: var(--muted); }
 .checkout { width: 100%; padding: 12px; }
 @media (max-width: 800px) { .layout { grid-template-columns: 1fr; } }
