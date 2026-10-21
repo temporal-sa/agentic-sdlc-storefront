@@ -1,8 +1,9 @@
 // DOM wiring for the storefront. Business rules live in cart.js.
-import { addItem, createCart, formatMoney, itemCount, removeItem, totals } from "./cart.js";
+import { addItem, createCart, filterProducts, formatMoney, itemCount, removeItem, totals } from "./cart.js";
 
 let cart = createCart();
 let products = [];
+let query = "";
 
 async function main() {
   const response = await fetch("./products.json");
@@ -14,7 +15,9 @@ async function main() {
 function renderProducts() {
   const grid = document.querySelector("#products");
   grid.innerHTML = "";
-  for (const product of products) {
+  const visible = filterProducts(products, query);
+  document.querySelector("#no-results").hidden = visible.length > 0;
+  for (const product of visible) {
     const card = document.createElement("article");
     card.className = "product";
     card.innerHTML = `
@@ -51,5 +54,10 @@ function renderCart() {
   document.querySelector("#total").textContent = formatMoney(total);
   document.querySelector("#empty").hidden = cart.items.length > 0;
 }
+
+document.querySelector("#product-search").addEventListener("input", (event) => {
+  query = event.target.value;
+  renderProducts();
+});
 
 main();
