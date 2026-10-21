@@ -15,7 +15,9 @@ async function main() {
 function renderProducts() {
   const grid = document.querySelector("#products");
   grid.innerHTML = "";
-  for (const product of products) {
+  const visible = filterProducts(products, query);
+  document.querySelector("#no-results").hidden = visible.length > 0;
+  for (const product of visible) {
     const card = document.createElement("article");
     card.className = "product";
     card.innerHTML = `
