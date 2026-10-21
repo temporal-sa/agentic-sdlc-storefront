@@ -2,11 +2,13 @@
 // so it runs the same in the browser and under `node --test`.
 
 export const TAX_RATE = 0.08;
-export const DISCOUNT_CODES = { ORBIT10: 0.10 };
+export const DISCOUNT_CODE = "ORBIT10";
+export const DISCOUNT_RATE = 0.1;
+export const DISCOUNT_CODES = { [DISCOUNT_CODE]: DISCOUNT_RATE };
 export const INVALID_CODE_MESSAGE = "That code isn't valid";
 
 export function createCart() {
-  return { items: [] };
+  return { items: [], discountCode: null };
 }
 
 export function addItem(cart, product, quantity = 1) {
