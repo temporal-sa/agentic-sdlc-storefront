@@ -1,6 +1,36 @@
 // DOM wiring for the storefront. Business rules live in cart.js.
 import { addItem, createCart, formatMoney, itemCount, removeItem, totals } from "./cart.js";
 
+import { THEME_STORAGE_KEY, resolveTheme, nextTheme, readStoredTheme, saveTheme } from "./theme.js";
+
+function getStorage() {
+  try {
+    return window.localStorage;
+  } catch {
+    return null;
+  }
+}
+
+function initTheme() {
+  const button = document.querySelector("#theme-toggle");
+  const storage = getStorage();
+  const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+  let theme = resolveTheme(readStoredTheme(storage), prefersDark);
+  const apply = () => {
+    document.documentElement.dataset.theme = theme;
+    button.setAttribute("aria-pressed", String(theme === "dark"));
+    button.textContent = "Dark mode";
+  };
+  apply();
+  button.addEventListener("click", () => {
+    theme = nextTheme(theme);
+    apply();
+    saveTheme(storage, theme);
+  });
+}
+
+initTheme();
+
 let cart = createCart();
 let products = [];
 
