@@ -5,13 +5,29 @@
   --muted: #646a82;
   --accent: #444ce7;
   --border: #e3e5ef;
+  --on-accent: #ffffff;
+  color-scheme: light;
   font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
 }
+:root[data-theme="dark"] {
+  --bg: #11131c;
+  --surface: #1b1e2b;
+  --text: #eceef6;
+  --muted: #a3a9c2;
+  --accent: #9aa1ff;
+  --border: #343850;
+  --on-accent: #11131c;
+  color-scheme: dark;
+}
+.header-actions { display: flex; align-items: center; gap: 12px; }
+.theme-toggle { background: transparent; color: var(--text); border: 1px solid var(--border); }
+:focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; }
+.theme-toggle:focus-visible { outline: 3px solid var(--text); }
 * { box-sizing: border-box; }
 body { margin: 0; background: var(--bg); color: var(--text); }
 .site-header { display: flex; justify-content: space-between; align-items: center; padding: 16px 32px; background: var(--surface); border-bottom: 1px solid var(--border); }
 .brand { font-weight: 700; font-size: 1.2rem; }
-.cart-pill { background: var(--accent); color: white; border-radius: 999px; padding: 6px 14px; font-weight: 600; }
+.cart-pill { background: var(--accent); color: var(--on-accent); border-radius: 999px; padding: 6px 14px; font-weight: 600; }
 .layout { display: grid; grid-template-columns: 1fr 320px; gap: 32px; padding: 32px; max-width: 1200px; margin: 0 auto; }
 h1 { margin-top: 0; }
 .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 16px; }
@@ -19,7 +35,7 @@ h1 { margin-top: 0; }
 .product-emoji { font-size: 3rem; }
 .product h3 { margin: 8px 0 4px; font-size: 1rem; }
 .price { color: var(--muted); margin: 0 0 12px; }
-button { font: inherit; cursor: pointer; border: 0; border-radius: 8px; padding: 8px 14px; background: var(--accent); color: white; font-weight: 600; }
+button { font: inherit; cursor: pointer; border: 0; border-radius: 8px; padding: 8px 14px; background: var(--accent); color: var(--on-accent); font-weight: 600; }
 button.link { background: none; color: var(--accent); padding: 0; font-weight: 500; }
 .cart { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 20px; align-self: start; }
 .cart h2 { margin-top: 0; }

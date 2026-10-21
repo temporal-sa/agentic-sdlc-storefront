@@ -1,8 +1,64 @@
 // DOM wiring for the storefront. Business rules live in cart.js.
 import { addItem, createCart, formatMoney, itemCount, removeItem, totals } from "./cart.js";
+import { THEME_STORAGE_KEY, resolveInitialTheme, nextTheme, readStoredTheme, writeStoredTheme } from "./theme.js";
 
 let cart = createCart();
 let products = [];
+
+function getStorage() {
+  try {
+    return window.localStorage;
+  } catch {
+    return null;
+  }
+}
+
+function systemPrefersDark() {
+  try {
+    return window.matchMedia("(prefers-color-scheme: dark)").matches;
+  } catch {
+    return false;
+  }
+}
+
+function updateToggle(theme) {
+  const button = document.querySelector("#theme-toggle");
+  if (!button) return;
+  const dark = theme === "dark";
+  button.setAttribute("aria-pressed", String(dark));
+  button.setAttribute("aria-label", dark ? "Switch to light theme" : "Switch to dark theme");
+}
+
+function applyTheme(theme) {
+  document.documentElement.dataset.theme = theme;
+  updateToggle(theme);
+}
+
+function initTheme() {
+  let stored = null;
+  try {
+    const storage = getStorage();
+    stored = storage ? readStoredTheme(storage) : null;
+  } catch {
+    stored = null;
+  }
+  applyTheme(resolveInitialTheme(stored, systemPrefersDark()));
+  const button = document.querySelector("#theme-toggle");
+  if (!button) return;
+  button.addEventListener("click", () => {
+    const theme = nextTheme(document.documentElement.dataset.theme);
+    applyTheme(theme);
+    try {
+      const storage = getStorage();
+      if (storage) writeStoredTheme(storage, theme);
+    } catch {
+      // Storage unavailable; the choice just won't persist.
+    }
+  });
+}
+
+// Apply theme before fetching products (module scripts run after parsing, so the DOM is ready).
+initTheme();
 
 async function main() {
   const response = await fetch("./products.json");
