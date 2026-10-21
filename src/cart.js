@@ -43,10 +43,17 @@ export function subtotal(cart) {
   return roundCents(cart.items.reduce((sum, item) => sum + item.price * item.quantity, 0));
 }
 
+export function discountAmount(cart) {
+  const sub = subtotal(cart);
+  const rate = DISCOUNT_CODES[cart.discountCode] ?? 0;
+  return roundCents(sub * rate);
+}
+
 export function totals(cart) {
   const sub = subtotal(cart);
-  const tax = roundCents(sub * TAX_RATE);
-  return { subtotal: sub, tax, total: roundCents(sub + tax) };
+  const discount = discountAmount(cart);
+  const tax = roundCents((sub - discount) * TAX_RATE);
+  return { subtotal: sub, discount, tax, total: roundCents(sub - discount + tax) };
 }
 
 export function formatMoney(amount) {
