@@ -5,7 +5,33 @@
   --muted: #646a82;
   --accent: #444ce7;
   --border: #e3e5ef;
+  --link: var(--accent);
+  color-scheme: light;
   font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+}
+/* Dark palette. --accent keeps white text >= 4.5:1 (#4f46e5 = 6.3:1);
+   --link is lighter so link text is >= 4.5:1 on the dark surface. */
+:root[data-theme="dark"] {
+  --bg: #0f111a;
+  --surface: #1a1d2b;
+  --text: #eceef7;
+  --muted: #a0a6bf;
+  --accent: #4f46e5;
+  --border: #33384d;
+  --link: #a5acff;
+  color-scheme: dark;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0f111a;
+    --surface: #1a1d2b;
+    --text: #eceef7;
+    --muted: #a0a6bf;
+    --accent: #4f46e5;
+    --border: #33384d;
+    --link: #a5acff;
+    color-scheme: dark;
+  }
 }
 * { box-sizing: border-box; }
 body { margin: 0; background: var(--bg); color: var(--text); }
