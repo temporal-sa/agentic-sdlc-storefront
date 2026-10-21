@@ -33,3 +33,36 @@ test("quantity must be positive", () => {
 test("money is formatted with two decimals", () => {
   assert.equal(formatMoney(5), "$5.00");
 });
+
+const catalog = [
+  { id: "tee", name: "Orbit Tee", price: 28 },
+  { id: "mug", name: "Space Mug", price: 16 },
+  { id: "cap", name: "Orbit Cap", price: 20 },
+];
+
+test("filterProducts returns all products for empty, blank or undefined query", () => {
+  assert.deepEqual(filterProducts(catalog, ""), catalog);
+  assert.deepEqual(filterProducts(catalog, "   "), catalog);
+  assert.deepEqual(filterProducts(catalog, undefined), catalog);
+});
+
+test("filterProducts is case-insensitive and matches mid-name", () => {
+  assert.deepEqual(filterProducts(catalog, "MUG").map((p) => p.id), ["mug"]);
+  assert.deepEqual(filterProducts(catalog, "ace m").map((p) => p.id), ["mug"]);
+});
+
+test("filterProducts ignores surrounding spaces", () => {
+  assert.deepEqual(filterProducts(catalog, "  tee ").map((p) => p.id), ["tee"]);
+});
+
+test("filterProducts returns empty array when nothing matches", () => {
+  assert.deepEqual(filterProducts(catalog, "zzz"), []);
+});
+
+test("filterProducts keeps order and does not mutate input", () => {
+  const copy = [...catalog];
+  assert.deepEqual(filterProducts(catalog, "orbit").map((p) => p.id), ["tee", "cap"]);
+  const all = filterProducts(catalog, "");
+  assert.notEqual(all, catalog);
+  assert.deepEqual(catalog, copy);
+});
