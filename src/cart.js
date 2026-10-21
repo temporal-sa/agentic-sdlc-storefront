@@ -27,6 +27,14 @@ export function removeItem(cart, productId) {
   return { ...cart, items: cart.items.filter((item) => item.id !== productId) };
 }
 
+export function applyDiscountCode(cart, code) {
+  const normalizedCode = code.trim().toUpperCase();
+  if (normalizedCode in DISCOUNT_CODES) {
+    return { ok: true, cart: { ...cart, discountCode: normalizedCode } };
+  }
+  return { ok: false, cart, error: INVALID_CODE_MESSAGE };
+}
+
 export function itemCount(cart) {
   return cart.items.reduce((sum, item) => sum + item.quantity, 0);
 }
