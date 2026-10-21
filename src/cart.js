@@ -2,6 +2,8 @@
 // so it runs the same in the browser and under `node --test`.
 
 export const TAX_RATE = 0.08;
+export const DISCOUNT_CODES = { ORBIT10: 0.10 };
+export const INVALID_CODE_MESSAGE = "That code isn't valid";
 
 export function createCart() {
   return { items: [] };
@@ -25,6 +27,14 @@ export function removeItem(cart, productId) {
   return { ...cart, items: cart.items.filter((item) => item.id !== productId) };
 }
 
+export function applyDiscountCode(cart, code) {
+  const normalizedCode = code.trim().toUpperCase();
+  if (normalizedCode in DISCOUNT_CODES) {
+    return { ok: true, cart: { ...cart, discountCode: normalizedCode } };
+  }
+  return { ok: false, cart, error: INVALID_CODE_MESSAGE };
+}
+
 export function itemCount(cart) {
   return cart.items.reduce((sum, item) => sum + item.quantity, 0);
 }
@@ -33,10 +43,17 @@ export function subtotal(cart) {
   return roundCents(cart.items.reduce((sum, item) => sum + item.price * item.quantity, 0));
 }
 
+export function discountAmount(cart) {
+  const sub = subtotal(cart);
+  const rate = DISCOUNT_CODES[cart.discountCode] ?? 0;
+  return roundCents(sub * rate);
+}
+
 export function totals(cart) {
   const sub = subtotal(cart);
-  const tax = roundCents(sub * TAX_RATE);
-  return { subtotal: sub, tax, total: roundCents(sub + tax) };
+  const discount = discountAmount(cart);
+  const tax = roundCents((sub - discount) * TAX_RATE);
+  return { subtotal: sub, discount, tax, total: roundCents(sub - discount + tax) };
 }
 
 export function formatMoney(amount) {
