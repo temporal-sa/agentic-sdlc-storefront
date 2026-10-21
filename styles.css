@@ -35,7 +35,7 @@ h1 { margin-top: 0; }
 .product-emoji { font-size: 3rem; }
 .product h3 { margin: 8px 0 4px; font-size: 1rem; }
 .price { color: var(--muted); margin: 0 0 12px; }
-button { font: inherit; cursor: pointer; border: 0; border-radius: 8px; padding: 8px 14px; background: var(--accent); color: white; font-weight: 600; }
+button { font: inherit; cursor: pointer; border: 0; border-radius: 8px; padding: 8px 14px; background: var(--accent); color: var(--on-accent); font-weight: 600; }
 button.link { background: none; color: var(--accent); padding: 0; font-weight: 500; }
 .cart { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 20px; align-self: start; }
 .cart h2 { margin-top: 0; }
