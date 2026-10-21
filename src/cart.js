@@ -30,7 +30,7 @@ export function removeItem(cart, productId) {
 }
 
 export function applyDiscountCode(cart, code) {
-  const normalizedCode = code.trim().toUpperCase();
+  const normalizedCode = String(code).trim().toUpperCase();
   if (normalizedCode in DISCOUNT_CODES) {
     return { ok: true, cart: { ...cart, discountCode: normalizedCode } };
   }
