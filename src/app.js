@@ -55,4 +55,9 @@ function renderCart() {
   document.querySelector("#empty").hidden = cart.items.length > 0;
 }
 
+document.querySelector("#product-search").addEventListener("input", (event) => {
+  query = event.target.value;
+  renderProducts();
+});
+
 main();
