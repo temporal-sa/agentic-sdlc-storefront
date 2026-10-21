@@ -4,6 +4,12 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Orbit Supply Co.</title>
+    <script>
+      try {
+        var t = localStorage.getItem("orbit-theme");
+        if (t === "light" || t === "dark") document.documentElement.dataset.theme = t;
+      } catch (e) {}
+    </script>
     <link rel="stylesheet" href="./styles.css" />
     <script type="module" src="./src/telemetry.js"></script>
     <script type="module" src="./src/app.js"></script>
