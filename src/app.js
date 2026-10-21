@@ -52,7 +52,15 @@ function renderCart() {
     });
     list.appendChild(row);
   }
-  const { subtotal, tax, total } = totals(cart);
+  const { subtotal, shipping, tax, total } = totals(cart);
+  const { remaining, unlocked, percent } = freeShippingProgress(cart);
+  document.querySelector("#shipping").textContent = formatMoney(shipping);
+  document.querySelector("#shipping-message").textContent = unlocked
+    ? "You've unlocked free shipping"
+    : `You're ${formatMoney(remaining)} away from free shipping`;
+  const bar = document.querySelector("#shipping-progress");
+  bar.value = percent;
+  document.querySelector("#free-shipping").classList.toggle("unlocked", unlocked);
   document.querySelector("#cart-count").textContent = String(itemCount(cart));
   document.querySelector("#subtotal").textContent = formatMoney(subtotal);
   document.querySelector("#tax").textContent = formatMoney(tax);
