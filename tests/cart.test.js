@@ -33,3 +33,46 @@ test("quantity must be positive", () => {
 test("money is formatted with two decimals", () => {
   assert.equal(formatMoney(5), "$5.00");
 });
+
+const sampleProducts = [
+  { id: "tee", name: "Orbit Tee", price: 28 },
+  { id: "mug", name: "Supply Mug", price: 16 },
+  { id: "cap", name: "Baseball Cap", price: 22 },
+];
+
+test("filterProducts returns all products in order when query is empty or whitespace", () => {
+  const resultEmpty = filterProducts(sampleProducts, "");
+  assert.deepEqual(resultEmpty, sampleProducts);
+  assert.notStrictEqual(resultEmpty, sampleProducts);
+
+  const resultSpaces = filterProducts(sampleProducts, "   \t ");
+  assert.deepEqual(resultSpaces, sampleProducts);
+  assert.notStrictEqual(resultSpaces, sampleProducts);
+});
+
+test("filterProducts is case-insensitive", () => {
+  const result = filterProducts(sampleProducts, "TEE");
+  assert.deepEqual(result, [{ id: "tee", name: "Orbit Tee", price: 28 }]);
+});
+
+test("filterProducts matches in the middle of a name", () => {
+  const result = filterProducts(sampleProducts, "pply");
+  assert.deepEqual(result, [{ id: "mug", name: "Supply Mug", price: 16 }]);
+});
+
+test("filterProducts returns [] when no products match", () => {
+  const result = filterProducts(sampleProducts, "nonexistent");
+  assert.deepEqual(result, []);
+});
+
+test("filterProducts does not mutate the input products array", () => {
+  const products = [
+    { id: "tee", name: "Orbit Tee", price: 28 },
+    { id: "mug", name: "Supply Mug", price: 16 },
+  ];
+  const copy = JSON.parse(JSON.stringify(products));
+  filterProducts(products, "tee");
+  filterProducts(products, "");
+  filterProducts(products, "xyz");
+  assert.deepEqual(products, copy);
+});
