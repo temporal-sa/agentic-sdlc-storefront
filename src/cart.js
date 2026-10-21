@@ -2,8 +2,6 @@
 // so it runs the same in the browser and under `node --test`.
 
 export const TAX_RATE = 0.08;
-export const FREE_SHIPPING_THRESHOLD = 75;
-export const SHIPPING_FEE = 6;
 
 export function createCart() {
   return { items: [] };
@@ -38,22 +36,7 @@ export function subtotal(cart) {
 export function totals(cart) {
   const sub = subtotal(cart);
   const tax = roundCents(sub * TAX_RATE);
-  const shipping = shippingFor(sub);
-  return { subtotal: sub, shipping, tax, total: roundCents(sub + shipping + tax) };
-}
-
-export function shippingFor(sub) {
-  return sub === 0 || sub >= FREE_SHIPPING_THRESHOLD ? 0 : SHIPPING_FEE;
-}
-
-export function freeShippingProgress(cart) {
-  const sub = subtotal(cart);
-  const unlocked = sub >= FREE_SHIPPING_THRESHOLD;
-  return {
-    remaining: unlocked ? 0 : roundCents(FREE_SHIPPING_THRESHOLD - sub),
-    progress: Math.min(1, sub / FREE_SHIPPING_THRESHOLD),
-    unlocked,
-  };
+  return { subtotal: sub, tax, total: roundCents(sub + tax) };
 }
 
 export function formatMoney(amount) {
