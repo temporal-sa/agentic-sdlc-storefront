@@ -35,7 +35,10 @@
 body { margin: 0; background: var(--bg); color: var(--text); }
 .site-header { display: flex; justify-content: space-between; align-items: center; padding: 16px 32px; background: var(--surface); border-bottom: 1px solid var(--border); }
 .brand { font-weight: 700; font-size: 1.2rem; }
-.cart-pill { background: var(--accent); color: white; border-radius: 999px; padding: 6px 14px; font-weight: 600; }
+.header-actions { display: flex; align-items: center; gap: 12px; }
+.cart-pill { background: var(--accent); color: var(--on-accent); border-radius: 999px; padding: 6px 14px; font-weight: 600; }
+button.theme-toggle { background: var(--surface); color: var(--text); border: 2px solid var(--accent); border-radius: 999px; padding: 4px 12px; font-weight: 600; }
+button.theme-toggle:focus-visible { outline: 2px solid var(--text); outline-offset: 2px; }
 .layout { display: grid; grid-template-columns: 1fr 320px; gap: 32px; padding: 32px; max-width: 1200px; margin: 0 auto; }
 h1 { margin-top: 0; }
 .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 16px; }
