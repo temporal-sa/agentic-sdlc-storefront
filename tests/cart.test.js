@@ -76,3 +76,16 @@ test("filterProducts does not mutate the input products array", () => {
   filterProducts(products, "xyz");
   assert.deepEqual(products, copy);
 });
+
+test("filtering products by name (case-insensitive)", () => {
+  const products = [
+    { id: "1", name: "Orbit Hoodie" },
+    { id: "2", name: "Orbit Mug" },
+    { id: "3", name: "Sticker Pack" },
+  ];
+  assert.deepEqual(filterProducts(products, "orbit").map((p) => p.id), ["1", "2"]);
+  assert.deepEqual(filterProducts(products, "MUG").map((p) => p.id), ["2"]);
+  assert.deepEqual(filterProducts(products, "  pack  ").map((p) => p.id), ["3"]);
+  assert.deepEqual(filterProducts(products, ""), products);
+  assert.deepEqual(filterProducts(products, "nonexistent"), []);
+});
