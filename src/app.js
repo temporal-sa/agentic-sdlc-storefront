@@ -1,10 +1,48 @@
 // DOM wiring for the storefront. Business rules live in cart.js.
 import { addItem, createCart, formatMoney, itemCount, removeItem, totals } from "./cart.js";
 
+import {
+  isTheme,
+  nextTheme,
+  readStoredTheme,
+  resolveInitialTheme,
+  storeTheme,
+} from "./theme.js";
+
 let cart = createCart();
 let products = [];
 
+function getSafeLocalStorage() {
+  try {
+    return window.localStorage;
+  } catch {
+    return null;
+  }
+}
+
+function applyTheme(theme) {
+  document.documentElement.dataset.theme = theme;
+  const button = document.querySelector("#theme-toggle");
+  if (button) {
+    button.setAttribute("aria-pressed", String(theme === "dark"));
+    button.textContent = theme === "dark" ? "☀️" : "🌙";
+  }
+}
+
+function initTheme() {
+  const storage = getSafeLocalStorage();
+  const prefersDark = window.matchMedia?.("(prefers-color-scheme: dark)").matches ?? false;
+  let current = resolveInitialTheme(readStoredTheme(storage), prefersDark);
+  applyTheme(current);
+  document.querySelector("#theme-toggle")?.addEventListener("click", () => {
+    current = nextTheme(current);
+    applyTheme(current);
+    storeTheme(storage, current);
+  });
+}
+
 async function main() {
+  initTheme();
   const response = await fetch("./products.json");
   products = await response.json();
   renderProducts();
