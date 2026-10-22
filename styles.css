@@ -5,8 +5,22 @@
   --muted: #646a82;
   --accent: #444ce7;
   --border: #e3e5ef;
+  color-scheme: light;
   font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
 }
+:root[data-theme="dark"] {
+  --bg: #12141f;
+  --surface: #1c1f2e;
+  --text: #eceef8;
+  --muted: #a6acc7;
+  --accent: #4a52e0;
+  --border: #33374d;
+  color-scheme: dark;
+}
+:root[data-theme="dark"] button.link { color: #aab0ff; }
+.header-actions { display: flex; align-items: center; gap: 12px; }
+#theme-toggle { background: transparent; color: var(--text); border: 1px solid var(--border); }
+button:focus-visible { outline: 3px solid var(--text); outline-offset: 2px; }
 * { box-sizing: border-box; }
 body { margin: 0; background: var(--bg); color: var(--text); }
 .site-header { display: flex; justify-content: space-between; align-items: center; padding: 16px 32px; background: var(--surface); border-bottom: 1px solid var(--border); }
