@@ -17,7 +17,7 @@
   --border: #343850;
   color-scheme: dark;
 }
-:root[data-theme="dark"] button.link { color: #a5b4fc; }
+:root[data-theme="dark"] button.link { color: var(--text); }
 .header-actions { display: flex; align-items: center; gap: 12px; }
 .theme-toggle, button.theme-toggle { background: var(--surface); color: var(--text); border: 1px solid var(--border); padding: 5px 10px; }
 .theme-toggle:focus-visible { outline: 3px solid var(--text); outline-offset: 2px; }
