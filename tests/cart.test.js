@@ -33,3 +33,32 @@ test("quantity must be positive", () => {
 test("money is formatted with two decimals", () => {
   assert.equal(formatMoney(5), "$5.00");
 });
+
+const poster = { id: "poster", name: "Space Poster", price: 12 };
+
+test("filterProducts matches case-insensitively", () => {
+  assert.deepEqual(filterProducts([tee, mug], "MUG"), [mug]);
+});
+
+test("filterProducts matches substrings in the middle of a name", () => {
+  assert.deepEqual(filterProducts([tee, mug, poster], "ace pos"), [poster]);
+});
+
+test("filterProducts returns [] when nothing matches", () => {
+  assert.deepEqual(filterProducts([tee, mug], "xyz"), []);
+});
+
+test("filterProducts returns all products for empty or whitespace queries", () => {
+  const all = [tee, mug];
+  assert.deepEqual(filterProducts(all, ""), all);
+  assert.deepEqual(filterProducts(all, "   "), all);
+  assert.deepEqual(filterProducts(all, null), all);
+  assert.deepEqual(filterProducts(all, undefined), all);
+  assert.notEqual(filterProducts(all, ""), all);
+});
+
+test("filterProducts does not mutate its input", () => {
+  const all = [tee, mug];
+  filterProducts(all, "mug");
+  assert.deepEqual(all, [tee, mug]);
+});
