@@ -54,7 +54,7 @@ function renderCart() {
     list.appendChild(row);
   }
   const { subtotal, shipping, tax, total } = totals(cart);
-  document.querySelector("#shipping").textContent = shipping === 0 ? "Free" : formatMoney(shipping);
+  document.querySelector("#shipping").textContent = shipping === 0 && cart.items.length > 0 ? "Free" : formatMoney(shipping);
   const block = document.querySelector("#free-shipping");
   block.hidden = cart.items.length === 0;
   const progress = document.querySelector("#shipping-progress");
