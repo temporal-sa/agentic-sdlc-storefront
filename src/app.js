@@ -1,5 +1,14 @@
 // DOM wiring for the storefront. Business rules live in cart.js.
-import { addItem, createCart, formatMoney, itemCount, removeItem, totals } from "./cart.js";
+import {
+  addItem,
+  amountToFreeShipping,
+  createCart,
+  FREE_SHIPPING_THRESHOLD,
+  formatMoney,
+  itemCount,
+  removeItem,
+  totals,
+} from "./cart.js";
 
 let cart = createCart();
 let products = [];
