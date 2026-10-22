@@ -2,7 +2,6 @@
 import { addItem, createCart, formatMoney, itemCount, removeItem, totals } from "./cart.js";
 
 import {
-  isTheme,
   nextTheme,
   readStoredTheme,
   resolveInitialTheme,
