@@ -2,6 +2,8 @@
 // so it runs the same in the browser and under `node --test`.
 
 export const TAX_RATE = 0.08;
+export const FREE_SHIPPING_THRESHOLD = 75;
+export const SHIPPING_FEE = 6;
 
 export function createCart() {
   return { items: [] };
