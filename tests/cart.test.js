@@ -1,6 +1,18 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
-import { addItem, createCart, formatMoney, itemCount, removeItem, subtotal, totals } from "../src/cart.js";
+import {
+  addItem,
+  createCart,
+  formatMoney,
+  freeShippingProgress,
+  itemCount,
+  removeItem,
+  shippingCost,
+  subtotal,
+  totals,
+} from "../src/cart.js";
+
+const cartOf = (price, quantity = 1) => addItem(createCart(), { id: "x", name: "X", price }, quantity);
 
 const tee = { id: "tee", name: "Tee", price: 28 };
 const mug = { id: "mug", name: "Mug", price: 16 };
