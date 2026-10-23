@@ -53,7 +53,7 @@ export function freeShippingProgress(cart) {
   return {
     remaining: unlocked ? 0 : roundCents(FREE_SHIPPING_THRESHOLD - sub),
     unlocked,
-    percent: unlocked ? 100 : Math.min(100, Math.max(0, Math.floor((sub / FREE_SHIPPING_THRESHOLD) * 100))),
+    percent: Math.min(100, (sub / FREE_SHIPPING_THRESHOLD) * 100),
   };
 }
 
