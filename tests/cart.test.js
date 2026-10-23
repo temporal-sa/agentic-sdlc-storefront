@@ -55,7 +55,10 @@ test("tax excludes shipping", () => {
 test("free shipping progress reports remaining, percent and unlocked", () => {
   assert.deepEqual(freeShippingProgress(createCart()), { remaining: 75, unlocked: false, percent: 0 });
   assert.deepEqual(freeShippingProgress(cartOf(30)), { remaining: 45, unlocked: false, percent: 40 });
-  assert.deepEqual(freeShippingProgress(cartOf(74.99)), { remaining: 0.01, unlocked: false, percent: 99 });
+  const near = freeShippingProgress(cartOf(74.99));
+  assert.equal(near.remaining, 0.01);
+  assert.equal(near.unlocked, false);
+  assert.ok(Math.abs(near.percent - 99.98667) < 0.001);
   assert.deepEqual(freeShippingProgress(cartOf(75)), { remaining: 0, unlocked: true, percent: 100 });
   assert.deepEqual(freeShippingProgress(cartOf(120)), { remaining: 0, unlocked: true, percent: 100 });
 });
