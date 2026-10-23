@@ -35,8 +35,24 @@ export function subtotal(cart) {
 
 export function totals(cart) {
   const sub = subtotal(cart);
+  const shipping = shippingCost(cart);
   const tax = roundCents(sub * TAX_RATE);
-  return { subtotal: sub, tax, total: roundCents(sub + tax) };
+  return { subtotal: sub, shipping, tax, total: roundCents(sub + shipping + tax) };
+}
+
+export function shippingCost(cart) {
+  if (cart.items.length === 0) return 0;
+  return subtotal(cart) >= FREE_SHIPPING_THRESHOLD ? 0 : SHIPPING_FEE;
+}
+
+export function freeShippingProgress(cart) {
+  const sub = subtotal(cart);
+  const unlocked = sub >= FREE_SHIPPING_THRESHOLD;
+  return {
+    remaining: unlocked ? 0 : roundCents(FREE_SHIPPING_THRESHOLD - sub),
+    unlocked,
+    percent: unlocked ? 100 : Math.min(100, Math.max(0, Math.floor((sub / FREE_SHIPPING_THRESHOLD) * 100))),
+  };
 }
 
 export function formatMoney(amount) {
