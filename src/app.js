@@ -47,7 +47,7 @@ function renderCart() {
   const { subtotal, shipping, tax, total } = totals(cart);
   const { remaining, percent } = freeShippingProgress(cart);
   const unlocked = remaining <= 0;
-  const pct = Math.max(0, Math.min(100, Math.round(percent)));
+  const pct = Math.max(0, Math.min(100, Math.floor(percent)));
   const bar = document.querySelector("#free-shipping-bar");
   bar.setAttribute("aria-valuenow", String(pct));
   bar.classList.toggle("unlocked", unlocked);
