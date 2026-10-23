@@ -44,7 +44,18 @@ function renderCart() {
     });
     list.appendChild(row);
   }
-  const { subtotal, tax, total } = totals(cart);
+  const { subtotal, shipping, tax, total } = totals(cart);
+  const { remaining, percent } = freeShippingProgress(cart);
+  const unlocked = remaining <= 0;
+  const pct = Math.max(0, Math.min(100, Math.round(percent)));
+  const bar = document.querySelector("#free-shipping-bar");
+  bar.setAttribute("aria-valuenow", String(pct));
+  bar.classList.toggle("unlocked", unlocked);
+  document.querySelector("#free-shipping-fill").style.width = `${pct}%`;
+  document.querySelector("#free-shipping-msg").textContent = unlocked
+    ? "You've unlocked free shipping"
+    : `You're ${formatMoney(remaining)} away from free shipping`;
+  document.querySelector("#shipping").textContent = formatMoney(shipping);
   document.querySelector("#cart-count").textContent = String(itemCount(cart));
   document.querySelector("#subtotal").textContent = formatMoney(subtotal);
   document.querySelector("#tax").textContent = formatMoney(tax);
