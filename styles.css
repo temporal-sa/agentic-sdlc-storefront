@@ -32,7 +32,7 @@ button.link { background: none; color: var(--accent); padding: 0; font-weight: 5
 .free-shipping-bar { height: 8px; border-radius: 999px; background: var(--border); overflow: hidden; }
 .free-shipping-fill { height: 100%; width: 0; background: var(--accent); border-radius: 999px; transition: width 0.2s ease; }
 .free-shipping-bar.unlocked .free-shipping-fill { background: #12b76a; }
-.free-shipping-bar.unlocked + * , .free-shipping:has(.unlocked) .free-shipping-msg { color: #067647; font-weight: 600; }
+.free-shipping:has(.unlocked) .free-shipping-msg { color: #067647; font-weight: 600; }
 .total { font-weight: 700; }
 .muted { color: var(--muted); }
 .checkout { width: 100%; padding: 12px; }
