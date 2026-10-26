@@ -67,7 +67,7 @@ function renderCart() {
     const row = document.createElement("li");
     row.innerHTML = `<span>${item.name} × ${item.quantity}</span>
       <span>${formatMoney(item.price * item.quantity)}</span>
-      <button type="button" class="link" aria-label="Move ${item.name} to cart">Move to cart</button>`;
+      <button type="button" class="link" aria-label="Move to cart: ${item.name}">Move to cart</button>`;
     row.querySelector("button").addEventListener("click", () => {
       cart = moveToCart(cart, item.id);
       renderCart();
