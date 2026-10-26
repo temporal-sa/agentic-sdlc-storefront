@@ -4,7 +4,33 @@
 export const TAX_RATE = 0.08;
 
 export function createCart() {
-  return { items: [] };
+  return { items: [], saved: [] };
+}
+
+function move(cart, productId, from, to) {
+  const source = cart[from] || [];
+  const target = cart[to] || [];
+  const found = source.find((item) => item.id === productId);
+  if (!found) return cart;
+  const rest = source.filter((item) => item.id !== productId);
+  const merged = target.some((item) => item.id === productId)
+    ? target.map((item) =>
+        item.id === productId ? { ...item, quantity: item.quantity + found.quantity } : item,
+      )
+    : [...target, { ...found }];
+  return { ...cart, [from]: rest, [to]: merged };
+}
+
+export function saveForLater(cart, productId) {
+  return move(cart, productId, "items", "saved");
+}
+
+export function moveToCart(cart, productId) {
+  return move(cart, productId, "saved", "items");
+}
+
+export function savedCount(cart) {
+  return (cart.saved || []).reduce((sum, item) => sum + item.quantity, 0);
 }
 
 export function addItem(cart, product, quantity = 1) {
