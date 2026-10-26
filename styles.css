@@ -28,6 +28,13 @@ button.link { background: none; color: var(--accent); padding: 0; font-weight: 5
 .totals { display: grid; grid-template-columns: 1fr auto; gap: 6px; margin: 0 0 16px; }
 .totals dd { margin: 0; text-align: right; }
 .total { font-weight: 700; }
+.header-pills { display: flex; gap: 8px; }
+.saved-pill { background: var(--muted); }
+.saved { margin-top: 24px; border-top: 1px solid var(--border); padding-top: 16px; }
+.saved h3 { margin: 0 0 8px; font-size: 1rem; }
+#saved-items { list-style: none; padding: 0; margin: 0; display: grid; gap: 8px; }
+#saved-items li { display: grid; grid-template-columns: 1fr auto auto; gap: 8px; align-items: center; }
+#cart-items .row-actions { display: flex; gap: 10px; }
 .muted { color: var(--muted); }
 .checkout { width: 100%; padding: 12px; }
 @media (max-width: 800px) { .layout { grid-template-columns: 1fr; } }

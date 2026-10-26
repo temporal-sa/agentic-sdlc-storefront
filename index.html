@@ -11,7 +11,10 @@
   <body>
     <header class="site-header">
       <div class="brand"><span aria-hidden="true">🪐</span> Orbit Supply Co.</div>
-      <div class="cart-pill">Cart <span id="cart-count">0</span></div>
+      <div class="header-pills">
+        <div class="cart-pill">Cart <span id="cart-count">0</span></div>
+        <div class="cart-pill saved-pill">Saved <span id="saved-count">0</span></div>
+      </div>
     </header>
     <main class="layout">
       <section aria-labelledby="shop-heading">
@@ -28,6 +31,11 @@
           <dt class="total">Total</dt><dd id="total" class="total">$0.00</dd>
         </dl>
         <button type="button" class="checkout">Checkout</button>
+        <section class="saved" aria-labelledby="saved-heading">
+          <h3 id="saved-heading">Saved for later</h3>
+          <p id="saved-empty" class="muted">No items saved for later.</p>
+          <ul id="saved-items"></ul>
+        </section>
       </aside>
     </main>
   </body>
