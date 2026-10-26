@@ -30,4 +30,11 @@ button.link { background: none; color: var(--accent); padding: 0; font-weight: 5
 .total { font-weight: 700; }
 .muted { color: var(--muted); }
 .checkout { width: 100%; padding: 12px; }
+#cart-items li { grid-template-columns: 1fr auto; }
+.row-actions { grid-column: 1 / -1; display: flex; gap: 12px; }
+.saved { margin-top: 20px; border-top: 1px solid var(--border); padding-top: 16px; }
+.saved h3 { margin: 0 0 8px; font-size: 1rem; }
+#saved-items { list-style: none; padding: 0; margin: 0; display: grid; gap: 8px; }
+#saved-items li { display: grid; grid-template-columns: 1fr auto; gap: 4px 8px; align-items: center; }
+#saved-items li .muted { grid-column: 1 / -1; }
 @media (max-width: 800px) { .layout { grid-template-columns: 1fr; } }
