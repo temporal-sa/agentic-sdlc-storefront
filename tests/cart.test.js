@@ -35,11 +35,13 @@ test("shipping is free from a $75 subtotal", () => {
 });
 
 test("freeShippingProgress reports remaining amount and percent", () => {
-  assert.deepEqual(freeShippingProgress(createCart()), { threshold: 75, remaining: 75, percent: 0, qualifies: false });
+  assert.deepEqual(freeShippingProgress(createCart()), { remaining: 75, progress: 0, unlocked: false });
   const cart = addItem(addItem(createCart(), tee, 2), mug);
-  assert.deepEqual(freeShippingProgress(cart), { threshold: 75, remaining: 3, percent: 96, qualifies: false });
+  assert.deepEqual(freeShippingProgress(cart), { remaining: 3, progress: 72 / 75, unlocked: false });
   const big = addItem(createCart(), tee, 3);
-  assert.deepEqual(freeShippingProgress(big), { threshold: 75, remaining: 0, percent: 100, qualifies: true });
+  assert.deepEqual(freeShippingProgress(big), { remaining: 0, progress: 1, unlocked: true });
+  const exact = addItem(createCart(), { id: "x", name: "X", price: 75 });
+  assert.deepEqual(freeShippingProgress(exact), { remaining: 0, progress: 1, unlocked: true });
 });
 
 test("removing a product drops it from the cart", () => {
