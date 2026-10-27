@@ -55,7 +55,7 @@ function renderCart() {
     block.hidden = false;
     document.querySelector("#free-shipping-message").textContent = unlocked
       ? "You've unlocked free shipping!"
-      : `Add ${formatMoney(remaining)} more for free shipping`;
+      : `You're ${formatMoney(remaining)} away from free shipping`;
     document.querySelector("#free-shipping-fill").style.width = `${percent}%`;
     document.querySelector("#free-shipping-bar").setAttribute("aria-valuenow", String(percent));
   }
