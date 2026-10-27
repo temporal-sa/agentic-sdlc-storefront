@@ -39,6 +39,14 @@ test("carts with several items get the bulk discount", () => {
   assert.equal(bulkDiscount(cart), 6.4);
 });
 
+test("exactly 3 items qualify for the bulk discount", () => {
+  assert.equal(bulkDiscount(addItem(createCart(), mug, 3)), 4.8);
+});
+
+test("2 items get no discount", () => {
+  assert.equal(bulkDiscount(addItem(createCart(), mug, 2)), 0);
+});
+
 test("small carts pay full price", () => {
   assert.equal(bulkDiscount(addItem(createCart(), mug)), 0);
 });
