@@ -31,5 +31,11 @@ test("quantity must be positive", () => {
 });
 
 test("money is formatted with two decimals", () => {
-  assert.equal(formatMoney(5), "$5.00");
+  assert.equal(formatMoney(500), "$5.00");
+});
+
+test("fractional dollar prices convert to cents without drift", () => {
+  const cart = addItem(createCart(), { id: "x", name: "X", price: 19.99 }, 3);
+  assert.equal(cart.items[0].price, 1999);
+  assert.equal(subtotal(cart), 5997);
 });
