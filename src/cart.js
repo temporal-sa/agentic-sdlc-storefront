@@ -50,10 +50,9 @@ export function freeShippingProgress(cart) {
   const sub = subtotal(cart);
   const remaining = roundCents(Math.max(0, FREE_SHIPPING_THRESHOLD - sub));
   return {
-    threshold: FREE_SHIPPING_THRESHOLD,
     remaining,
-    percent: Math.min(100, Math.round((sub / FREE_SHIPPING_THRESHOLD) * 100)),
-    qualifies: sub >= FREE_SHIPPING_THRESHOLD,
+    progress: Math.min(1, sub / FREE_SHIPPING_THRESHOLD),
+    unlocked: sub >= FREE_SHIPPING_THRESHOLD,
   };
 }
 
