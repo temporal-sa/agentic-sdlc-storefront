@@ -29,5 +29,9 @@ button.link { background: none; color: var(--accent); padding: 0; font-weight: 5
 .totals dd { margin: 0; text-align: right; }
 .total { font-weight: 700; }
 .muted { color: var(--muted); }
+.free-shipping { margin: 0 0 16px; }
+.free-shipping p { margin: 0 0 6px; }
+.progress { height: 10px; background: var(--border); border-radius: 999px; overflow: hidden; }
+.progress-fill { height: 100%; width: 0; background: var(--accent); border-radius: 999px; transition: width 0.3s ease; }
 .checkout { width: 100%; padding: 12px; }
 @media (max-width: 800px) { .layout { grid-template-columns: 1fr; } }
