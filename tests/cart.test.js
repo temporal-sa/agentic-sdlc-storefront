@@ -11,14 +11,20 @@ test("adding the same product twice increases its quantity", () => {
   assert.equal(itemCount(cart), 2);
 });
 
-test("subtotal sums price times quantity", () => {
+test("subtotal sums price times quantity in cents", () => {
   const cart = addItem(addItem(createCart(), tee, 2), mug);
-  assert.equal(subtotal(cart), 72);
+  assert.equal(subtotal(cart), 7200);
 });
 
 test("totals add 8% tax rounded to cents", () => {
   const cart = addItem(createCart(), mug);
-  assert.deepEqual(totals(cart), { subtotal: 16, tax: 1.28, total: 17.28 });
+  assert.deepEqual(totals(cart), { subtotal: 1600, tax: 128, total: 1728 });
+});
+
+test("fractional prices do not drift", () => {
+  const cart = addItem(createCart(), { id: "pen", name: "Pen", price: 19.99 }, 3);
+  assert.equal(subtotal(cart), 5997);
+  assert.ok(Number.isInteger(totals(cart).total));
 });
 
 test("removing a product drops it from the cart", () => {
@@ -31,5 +37,5 @@ test("quantity must be positive", () => {
 });
 
 test("money is formatted with two decimals", () => {
-  assert.equal(formatMoney(5), "$5.00");
+  assert.equal(formatMoney(500), "$5.00");
 });
