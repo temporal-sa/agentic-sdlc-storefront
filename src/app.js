@@ -44,7 +44,17 @@ function renderCart() {
     });
     list.appendChild(row);
   }
-  const { subtotal, tax, total } = totals(cart);
+  const { subtotal, shipping, tax, total } = totals(cart);
+  const isEmpty = cart.items.length === 0;
+  const remaining = freeShippingRemaining(subtotal);
+  document.querySelector("#shipping").textContent =
+    !isEmpty && shipping === 0 ? "Free" : formatMoney(shipping);
+  document.querySelector("#free-shipping").hidden = isEmpty;
+  document.querySelector("#free-shipping-bar").value = Math.min(subtotal, FREE_SHIPPING_THRESHOLD);
+  document.querySelector("#free-shipping-message").textContent =
+    remaining === 0
+      ? "You've unlocked free shipping"
+      : `You're ${formatMoney(remaining)} away from free shipping`;
   document.querySelector("#cart-count").textContent = String(itemCount(cart));
   document.querySelector("#subtotal").textContent = formatMoney(subtotal);
   document.querySelector("#tax").textContent = formatMoney(tax);
