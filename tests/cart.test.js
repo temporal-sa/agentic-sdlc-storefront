@@ -31,5 +31,13 @@ test("quantity must be positive", () => {
 });
 
 test("money is formatted with two decimals", () => {
-  assert.equal(formatMoney(5), "$5.00");
+  assert.equal(formatMoney(500), "$5.00");
+});
+
+test("formatMoney rejects non-integer cents", () => {
+  assert.throws(() => formatMoney(1.5), TypeError);
+});
+
+test("addItem stores prices in integer cents", () => {
+  assert.equal(addItem(createCart(), tee).items[0].price, 2800);
 });
