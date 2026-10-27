@@ -1,5 +1,14 @@
 // DOM wiring for the storefront. Business rules live in cart.js.
-import { addItem, createCart, formatMoney, itemCount, removeItem, totals } from "./cart.js";
+import {
+  FREE_SHIPPING_THRESHOLD,
+  addItem,
+  amountToFreeShipping,
+  createCart,
+  formatMoney,
+  itemCount,
+  removeItem,
+  totals,
+} from "./cart.js";
 
 let cart = createCart();
 let products = [];
@@ -44,7 +53,17 @@ function renderCart() {
     });
     list.appendChild(row);
   }
-  const { subtotal, tax, total } = totals(cart);
+  const { subtotal, shipping, tax, total } = totals(cart);
+  const hasItems = cart.items.length > 0;
+  document.querySelector("#shipping").textContent =
+    shipping === 0 && hasItems ? "Free" : formatMoney(shipping);
+  const remaining = amountToFreeShipping(cart);
+  document.querySelector("#free-shipping").hidden = !hasItems;
+  document.querySelector("#free-shipping-bar").value = Math.min(subtotal, FREE_SHIPPING_THRESHOLD);
+  document.querySelector("#free-shipping-msg").textContent =
+    remaining > 0
+      ? `You're ${formatMoney(remaining)} away from free shipping`
+      : "You've unlocked free shipping";
   document.querySelector("#cart-count").textContent = String(itemCount(cart));
   document.querySelector("#subtotal").textContent = formatMoney(subtotal);
   document.querySelector("#tax").textContent = formatMoney(tax);
