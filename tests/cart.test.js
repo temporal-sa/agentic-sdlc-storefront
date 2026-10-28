@@ -2,8 +2,8 @@ import { test } from "node:test";
 import assert from "node:assert/strict";
 import { addItem, createCart, formatMoney, itemCount, removeItem, subtotal, totals } from "../src/cart.js";
 
-const tee = { id: "tee", name: "Tee", price: 28 };
-const mug = { id: "mug", name: "Mug", price: 16 };
+const tee = { id: "tee", name: "Tee", price: 2800 };
+const mug = { id: "mug", name: "Mug", price: 1600 };
 
 test("adding the same product twice increases its quantity", () => {
   const cart = addItem(addItem(createCart(), tee), tee);
