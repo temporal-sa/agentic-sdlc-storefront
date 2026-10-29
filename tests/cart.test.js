@@ -31,5 +31,6 @@ test("quantity must be positive", () => {
 });
 
 test("money is formatted with two decimals", () => {
-  assert.equal(formatMoney(5), "$5.00");
+  assert.equal(formatMoney(500), "$5.00");
+  assert.equal(formatMoney(28), "$0.28");
 });
