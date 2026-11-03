@@ -43,6 +43,18 @@ test("free shipping progress", () => {
   assert.deepEqual(freeShippingProgress(createCart()), { remaining: 75, percent: 0, unlocked: false });
   const half = addItem(createCart(), { id: "h", name: "H", price: 37.5 });
   assert.deepEqual(freeShippingProgress(half), { remaining: 37.5, percent: 50, unlocked: false });
+  const close = (actual, expected) => assert.ok(Math.abs(actual - expected) < 1e-9, `${actual} != ${expected}`);
+  const small = freeShippingProgress(addItem(createCart(), mug));
+  assert.equal(small.remaining, 59);
+  close(small.percent, (16 / 75) * 100);
+  assert.equal(small.unlocked, false);
+  const under = freeShippingProgress(addItem(createCart(), { id: "a", name: "A", price: 74.99 }));
+  assert.equal(under.remaining, 0.01);
+  close(under.percent, (74.99 / 75) * 100);
+  assert.ok(under.percent < 100);
+  assert.equal(under.unlocked, false);
+  const at = freeShippingProgress(addItem(createCart(), { id: "b", name: "B", price: 75 }));
+  assert.deepEqual(at, { remaining: 0, percent: 100, unlocked: true });
   const over = addItem(createCart(), tee, 3);
   assert.deepEqual(freeShippingProgress(over), { remaining: 0, percent: 100, unlocked: true });
 });
