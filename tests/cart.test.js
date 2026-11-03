@@ -1,6 +1,6 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
-import { addItem, createCart, formatMoney, itemCount, removeItem, subtotal, totals } from "../src/cart.js";
+import { SHIPPING_FEE, addItem, createCart, formatMoney, freeShippingProgress, itemCount, removeItem, shipping, subtotal, totals } from "../src/cart.js";
 
 const tee = { id: "tee", name: "Tee", price: 28 };
 const mug = { id: "mug", name: "Mug", price: 16 };
@@ -16,9 +16,47 @@ test("subtotal sums price times quantity", () => {
   assert.equal(subtotal(cart), 72);
 });
 
-test("totals add 8% tax rounded to cents", () => {
+test("small order: shipping 6, tax on subtotal only", () => {
   const cart = addItem(createCart(), mug);
-  assert.deepEqual(totals(cart), { subtotal: 16, tax: 1.28, total: 17.28 });
+  assert.deepEqual(totals(cart), { subtotal: 16, shipping: 6, tax: 1.28, total: 23.28 });
+});
+
+test("empty cart has no shipping", () => {
+  assert.deepEqual(totals(createCart()), { subtotal: 0, shipping: 0, tax: 0, total: 0 });
+  assert.equal(shipping(createCart()), 0);
+});
+
+test("shipping boundaries at $74.99 and $75.00", () => {
+  const under = addItem(createCart(), { id: "a", name: "A", price: 74.99 });
+  const at = addItem(createCart(), { id: "b", name: "B", price: 75 });
+  assert.equal(shipping(under), SHIPPING_FEE);
+  assert.equal(shipping(at), 0);
+  assert.equal(totals(at).total, 81);
+});
+
+test("order above threshold ships free", () => {
+  const cart = addItem(addItem(createCart(), tee, 3), mug);
+  assert.deepEqual(totals(cart), { subtotal: 100, shipping: 0, tax: 8, total: 108 });
+});
+
+test("free shipping progress", () => {
+  assert.deepEqual(freeShippingProgress(createCart()), { remaining: 75, percent: 0, unlocked: false });
+  const half = addItem(createCart(), { id: "h", name: "H", price: 37.5 });
+  assert.deepEqual(freeShippingProgress(half), { remaining: 37.5, percent: 50, unlocked: false });
+  const close = (actual, expected) => assert.ok(Math.abs(actual - expected) < 1e-9, `${actual} != ${expected}`);
+  const small = freeShippingProgress(addItem(createCart(), mug));
+  assert.equal(small.remaining, 59);
+  close(small.percent, (16 / 75) * 100);
+  assert.equal(small.unlocked, false);
+  const under = freeShippingProgress(addItem(createCart(), { id: "a", name: "A", price: 74.99 }));
+  assert.equal(under.remaining, 0.01);
+  close(under.percent, (74.99 / 75) * 100);
+  assert.ok(under.percent < 100);
+  assert.equal(under.unlocked, false);
+  const at = freeShippingProgress(addItem(createCart(), { id: "b", name: "B", price: 75 }));
+  assert.deepEqual(at, { remaining: 0, percent: 100, unlocked: true });
+  const over = addItem(createCart(), tee, 3);
+  assert.deepEqual(freeShippingProgress(over), { remaining: 0, percent: 100, unlocked: true });
 });
 
 test("removing a product drops it from the cart", () => {
