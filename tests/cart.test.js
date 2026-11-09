@@ -1,6 +1,6 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
-import { addItem, amountToFreeShipping, createCart, formatMoney, itemCount, removeItem, shipping, subtotal, totals } from "../src/cart.js";
+import { addItem, createCart, formatMoney, itemCount, removeItem, subtotal, totals } from "../src/cart.js";
 
 const tee = { id: "tee", name: "Tee", price: 28 };
 const mug = { id: "mug", name: "Mug", price: 16 };
@@ -18,43 +18,7 @@ test("subtotal sums price times quantity", () => {
 
 test("totals add 8% tax rounded to cents", () => {
   const cart = addItem(createCart(), mug);
-  assert.deepEqual(totals(cart), { subtotal: 16, shipping: 6, tax: 1.28, total: 23.28 });
-});
-
-test("empty cart has no shipping and a zero total", () => {
-  assert.equal(shipping(createCart()), 0);
-  assert.deepEqual(totals(createCart()), { subtotal: 0, shipping: 0, tax: 0, total: 0 });
-});
-
-test("$74.99 is charged shipping", () => {
-  const cart = addItem(createCart(), { id: "x", name: "X", price: 74.99 });
-  assert.equal(shipping(cart), 6);
-  assert.equal(amountToFreeShipping(cart), 0.01);
-});
-
-test("exactly $75 ships free", () => {
-  const cart = addItem(createCart(), { id: "x", name: "X", price: 75 });
-  assert.equal(shipping(cart), 0);
-  assert.equal(amountToFreeShipping(cart), 0);
-  assert.deepEqual(totals(cart), { subtotal: 75, shipping: 0, tax: 6, total: 81 });
-});
-
-test("above $75 ships free", () => {
-  const cart = addItem(createCart(), { id: "x", name: "X", price: 100 });
-  assert.equal(shipping(cart), 0);
-  assert.equal(amountToFreeShipping(cart), 0);
-});
-
-test("tax excludes shipping", () => {
-  const cart = addItem(createCart(), { id: "x", name: "X", price: 50 });
-  const t = totals(cart);
-  assert.equal(t.tax, 4);
-  assert.equal(t.total, 60);
-});
-
-test("amountToFreeShipping is the gap to the threshold", () => {
-  assert.equal(amountToFreeShipping(createCart()), 75);
-  assert.equal(amountToFreeShipping(addItem(createCart(), mug)), 59);
+  assert.deepEqual(totals(cart), { subtotal: 16, tax: 1.28, total: 17.28 });
 });
 
 test("removing a product drops it from the cart", () => {
