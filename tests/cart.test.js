@@ -18,7 +18,17 @@ test("subtotal sums price times quantity", () => {
 
 test("totals add 8% tax rounded to cents", () => {
   const cart = addItem(createCart(), mug);
-  assert.deepEqual(totals(cart), { subtotal: 16, tax: 1.28, total: 17.28 });
+  assert.deepEqual(totals(cart), { subtotal: 1600, tax: 128, total: 1728 });
+});
+
+test("addItem stores prices as integer cents", () => {
+  const cart = addItem(createCart(), tee);
+  assert.equal(cart.items[0].price, 2800);
+});
+
+test("tax is rounded to whole cents", () => {
+  const cart = addItem(createCart(), { id: "x", name: "X", price: 0.99 });
+  assert.deepEqual(totals(cart), { subtotal: 99, tax: 7, total: 106 });
 });
 
 test("removing a product drops it from the cart", () => {
