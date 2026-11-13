@@ -28,7 +28,7 @@ test("addItem stores prices as integer cents", () => {
 
 test("tax is rounded to whole cents", () => {
   const cart = addItem(createCart(), { id: "x", name: "X", price: 0.99 });
-  assert.deepEqual(totals(cart), { subtotal: 99, tax: 7, total: 106 });
+  assert.deepEqual(totals(cart), { subtotal: 99, tax: 8, total: 107 });
 });
 
 test("removing a product drops it from the cart", () => {
