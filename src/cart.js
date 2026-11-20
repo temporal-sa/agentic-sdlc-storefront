@@ -7,8 +7,6 @@ import { formatMoney, roundCents } from "orbit-money";
 export { formatMoney };
 
 export const TAX_RATE = 0.08;
-export const FREE_SHIPPING_THRESHOLD = 75;
-export const SHIPPING_FEE = 6;
 
 export function createCart() {
   return { items: [] };
@@ -40,22 +38,9 @@ export function subtotal(cart) {
   return roundCents(cart.items.reduce((sum, item) => sum + item.price * item.quantity, 0));
 }
 
-export function shippingCost(cart) {
-  if (cart.items.length === 0) return 0;
-  return subtotal(cart) >= FREE_SHIPPING_THRESHOLD ? 0 : SHIPPING_FEE;
-}
-
-export function freeShippingProgress(cart) {
-  const sub = subtotal(cart);
-  const remaining = Math.max(0, roundCents(FREE_SHIPPING_THRESHOLD - sub));
-  const percent = Math.min(100, Math.max(0, (sub / FREE_SHIPPING_THRESHOLD) * 100));
-  return { remaining, unlocked: sub >= FREE_SHIPPING_THRESHOLD, percent };
-}
-
 export function totals(cart) {
   const sub = subtotal(cart);
-  const shipping = shippingCost(cart);
   const tax = roundCents(sub * TAX_RATE);
-  return { subtotal: sub, shipping, tax, total: roundCents(sub + shipping + tax) };
+  return { subtotal: sub, tax, total: roundCents(sub + tax) };
 }
 
