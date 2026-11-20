@@ -52,6 +52,8 @@ test("free shipping progress values", () => {
   assert.equal(mid.remaining, 19);
   assert.equal(mid.unlocked, false);
   assert.ok(Math.abs(mid.percent - 74.6666667) < 0.001);
+  const at = freeShippingProgress(addItem(createCart(), { id: "x", name: "X", price: 75 }));
+  assert.deepEqual(at, { remaining: 0, unlocked: true, percent: 100 });
   const over = freeShippingProgress(addItem(createCart(), tee, 3));
   assert.deepEqual(over, { remaining: 0, unlocked: true, percent: 100 });
 });
